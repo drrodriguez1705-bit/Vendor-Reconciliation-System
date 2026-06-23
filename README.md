@@ -48,15 +48,29 @@ I built a Python pipeline that:
 - Automated the full pipeline from raw data to PDF report with a 
   single script execution
 
+## Handling False Positives
+One of the key challenges in fuzzy matching is balancing precision vs. recall. 
+A threshold that is too low (e.g. 30) causes false positives — records that 
+match incorrectly to the wrong vendor, silently generating billing errors that 
+are harder to detect than an unmatched record.
+
+A false positive is more dangerous than a no-match: a no-match flags a problem 
+for manual review, while a false positive creates an incorrect payment that may 
+go unnoticed.
+
+After testing, a threshold of **45** was selected as the optimal balance for 
+this dataset — low enough to catch legitimate name variations and typos, high 
+enough to avoid incorrect matches. Records below the threshold are explicitly 
+flagged as `"NO MATCH - Manual Review Required"`and added to a special table rather than force-matched.
+
 ## Output
 The script automatically generates `reporte_ventas.pdf` containing:
-- Matched vendor list with confidence scores
-- Hours worked per vendor
+- Matched vendor list
 - Total payment owed per vendor
 - Summary charts
 
 ## Screenshots
-<img width="987" height="710" alt="image" src="https://github.com/user-attachments/assets/ac7c6990-801b-4828-8641-7cce4d8172a9" />
+<img width="792" height="573" alt="image" src="https://github.com/user-attachments/assets/c7dacbaa-b9e4-4b62-b3b8-f049811d9d40" />
 
-<img width="792" height="851" alt="image" src="https://github.com/user-attachments/assets/0e070793-c3e0-4968-af6a-d63eb07cef23" />
+<img width="790" height="858" alt="image" src="https://github.com/user-attachments/assets/5cd49d5f-538b-4888-83bd-3bc429cb2494" />
 
